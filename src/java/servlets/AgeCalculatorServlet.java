@@ -35,6 +35,7 @@ public class AgeCalculatorServlet extends HttpServlet {
         if(ageForm == null || ageForm.equals("")) {
 
                 errorMessage("You must give your current age.", request, response);
+                return;
         }
        
         //if the ageInput is invalid (text, 0 or negative)
@@ -44,10 +45,13 @@ public class AgeCalculatorServlet extends HttpServlet {
         }catch(NumberFormatException text) {
 
                 errorMessage("You must enter a number.", request, response);
-        }catch(Exception unexpected) {
-                
-                errorMessage("Unexpected Error.", request, response);
+                return;
         }
+//        catch(Exception unexpected) {
+//                
+//                errorMessage("Unexpected Error.", request, response);
+//                return;
+//        }
         
         
         //Finish the capture after validation 
@@ -62,7 +66,8 @@ public class AgeCalculatorServlet extends HttpServlet {
     }
     
     /**
-     * Creates an error message attribute and an error reference for jsp
+     * Creates an error message attribute and an error reference for jsp.
+     * Return after using! This is important.
      * 
      * @param message A message with a solution for the user's error
      * @param request The servlet request object
@@ -76,6 +81,5 @@ public class AgeCalculatorServlet extends HttpServlet {
             
             //Load the form with error statement
             getServletContext().getRequestDispatcher("/WEB-INF/agecalculator.jsp").forward(request, response);
-            return;
     }
 }
