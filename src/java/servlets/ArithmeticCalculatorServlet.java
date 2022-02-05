@@ -37,11 +37,20 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
         
         
         ///Validation 
+        //if inputs are empty
+        if( (firstTermForm == null || firstTermForm.equals("") ) 
+                && ( secondTermForm == null || secondTermForm.equals("") )) {
+            
+            getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp").forward(request, response);
+            return;
+        }
+        
         //if any of the inputs are invalid the result should be invalid
         try {
             
             calcTerms.setFirstTerm( Integer.parseInt(firstTermForm) );
             calcTerms.setSecondTerm( Integer.parseInt(secondTermForm) );
+            
             
         }catch (NumberFormatException text) {
             
@@ -55,14 +64,24 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
             return;
         }
         
+        
         //Process the valid data
+        if( operationTypeForm.equals("%") 
+                && calcTerms.getFirstTerm() == 0 
+                && calcTerms.getSecondTerm() == 0 ) {
+            
+            request.setAttribute("error", true);
+            getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp").forward(request, response);
+            return;
+        }
+        
         switch (operationTypeForm) {
             case "+": resultcalc = calcTerms.getFirstTerm() + calcTerms.getSecondTerm(); break;
             case "-": resultcalc = calcTerms.getFirstTerm() - calcTerms.getSecondTerm(); break;
             case "*": resultcalc = calcTerms.getFirstTerm() * calcTerms.getSecondTerm(); break;
             case "%": resultcalc = calcTerms.getFirstTerm() % calcTerms.getSecondTerm(); break;
             
-            default: request.setAttribute("error", true); break;
+            default: request.setAttribute("error", true); break;//Check here if all validation is passed but result is invalid
         }
         
         
