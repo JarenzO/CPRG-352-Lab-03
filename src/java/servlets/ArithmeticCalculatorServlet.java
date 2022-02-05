@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.Calculation;
 
 
 public class ArithmeticCalculatorServlet extends HttpServlet {
@@ -31,28 +32,24 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
         request.setAttribute("formfirstterm", firstTermForm);
         request.setAttribute("formsecondterm", secondTermForm);
         
-        int firstTerm=0;
-        int secondTerm=0;
-        String resultcalc="";
-        
+        Calculation calcTerms = new Calculation();
+        int resultcalc=0;
         
         
         ///Validation 
         //if any of the inputs are invalid the result should be invalid
         try {
             
-            firstTerm = Integer.parseInt(firstTermForm);
-            secondTerm = Integer.parseInt(secondTermForm);
+            calcTerms.setFirstTerm( Integer.parseInt(firstTermForm) );
+            calcTerms.setSecondTerm( Integer.parseInt(secondTermForm) );
             
         }catch (NumberFormatException text) {
             
-            resultcalc = "invalid";
             request.setAttribute("error", true);
             getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp").forward(request, response);
             return;
         }catch(Exception unexpected) {
             
-            resultcalc = "unexpected invalid";
             request.setAttribute("error", true);
             getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp").forward(request, response);
             return;
@@ -60,36 +57,22 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
         
         //Process the valid data
         switch (operationTypeForm) {
-            case "+": resultcalc = firstTerm + secondTerm + "";
-            case "-": resultcalc = firstTerm - secondTerm + "";
-            case "*": resultcalc = firstTerm * secondTerm + "";
-            case "%": resultcalc = firstTerm % secondTerm + "";
+            case "+": resultcalc = calcTerms.getFirstTerm() + calcTerms.getSecondTerm(); break;
+            case "-": resultcalc = calcTerms.getFirstTerm() - calcTerms.getSecondTerm(); break;
+            case "*": resultcalc = calcTerms.getFirstTerm() * calcTerms.getSecondTerm(); break;
+            case "%": resultcalc = calcTerms.getFirstTerm() % calcTerms.getSecondTerm(); break;
             
-            default: resultcalc = "invalid";
+            default: request.setAttribute("error", true); break;
         }
         
         
         
         ///Load the processed data
+        calcTerms.setResult(resultcalc);
+        request.setAttribute("calculation", calcTerms);
+        
         getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp").forward(request, response);
         return;
     }
 
-        /**
-     * Creates an error message attribute and an error reference for jsp
-     * 
-     * @param message A message with a solution for the user's error
-     * @param request The servlet request object
-     * @param response The servlet response object
-     * @throws ServletException Something wrong with servlet
-     * @throws IOException Failure of IO operation
-     */
-    private void errorMessage(String message, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            request.setAttribute("errorfeedback", message);
-            request.setAttribute("error", true);
-            
-            //Load the form with error statement
-            getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp").forward(request, response);
-            return;
-    }
 }

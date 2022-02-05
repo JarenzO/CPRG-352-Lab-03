@@ -7,6 +7,7 @@ public class Calculation implements Serializable{
     ///Attributes
     private int firstTerm;
     private int secondTerm;
+    private int result;
     
     
     
@@ -36,5 +37,13 @@ public class Calculation implements Serializable{
     public void setSecondTerm(int userSecondTerm) {
         this.secondTerm = userSecondTerm;
     }
-    
+
+    public int getResult() {
+        return result;
+    }
+
+    public void setResult(int result) {
+        this.result = result;
+    }
+   
 }

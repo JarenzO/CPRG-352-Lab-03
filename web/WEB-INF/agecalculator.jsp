@@ -26,13 +26,13 @@
         
           <div>
             <label>Enter your age: </label>
-            <input type="text" name="age" value="${formage}">
+            <input type="text" name="formage" value="${formage}">
           </div>
         
           <div>
             <br>
             <input type="submit" name="calcage" value="Age next birthday">
-            <c:if test="${error == true}">
+            <c:if test="${error}">
                 <p>${errorfeedback}</p>
             </c:if>
              <c:if test="${age != null}">

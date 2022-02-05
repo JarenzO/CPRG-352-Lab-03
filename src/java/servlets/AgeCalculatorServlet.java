@@ -38,7 +38,7 @@ public class AgeCalculatorServlet extends HttpServlet {
                 return;
         }
        
-        //if the ageInput is invalid (text, 0 or negative)
+        //if the ageInput is invalid (text)
         try {
             age = Integer.parseInt(ageForm);
             
@@ -47,11 +47,7 @@ public class AgeCalculatorServlet extends HttpServlet {
                 errorMessage("You must enter a number.", request, response);
                 return;
         }
-//        catch(Exception unexpected) {
-//                
-//                errorMessage("Unexpected Error.", request, response);
-//                return;
-//        }
+
         
         
         //Finish the capture after validation 
@@ -81,5 +77,6 @@ public class AgeCalculatorServlet extends HttpServlet {
             
             //Load the form with error statement
             getServletContext().getRequestDispatcher("/WEB-INF/agecalculator.jsp").forward(request, response);
+            return;
     }
 }
