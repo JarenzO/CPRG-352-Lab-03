@@ -21,14 +21,14 @@
     <body>
         <h1>Arithmetic Calculator</h1>
         
-        <form method="post" action="arithmetic">
+        <form method="post" action="arithmetic" return false;>
         
         <div>
             <label>First:</label>
-            <input type="number" name="${formfirstterm}">
+            <input type="text" name="${formfirstterm}">
             <br>
             <label>Second:</label>
-            <input type="number" name="${formsecondterm}">
+            <input type="text" name="${formsecondterm}">
         </div>
         <div>
             <input type="submit" name="${operation}" value="+">
@@ -37,7 +37,9 @@
             <input type="submit" name="${operation}" value="%">
         </div>
         <div>
-            <p>Result: <c:if test="${empty resultcalc}">---</c:if> <c:if test="${!(empty resultcalc)}">${resultcalc}</c:if> 
+            <p>Result: <c:if test="${empty formfirstterm || empty formsecondterm}">---</c:if> 
+                <c:if test="${ !(empty formfirstterm || empty formsecondterm) && error != true }">${calculation.result}</c:if>
+                <c:if test="${error == true}">invalid</c:if> 
             </p>
             <a href="http://localhost:8084/Calculators/age">Age Calculator</a>
         </div>
