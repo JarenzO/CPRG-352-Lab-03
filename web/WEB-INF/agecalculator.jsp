@@ -26,16 +26,20 @@
         
           <div>
             <label>Enter your age: </label>
-            <input type="text" name="age" value="${age}">
+            <input type="text" name="age" value="${formage}">
           </div>
         
           <div>
             <br>
             <input type="submit" name="calcage" value="Age next birthday">
-            <c:if test="${invalid == true}">
-                <p>Invalid Entry.</p>
+            <c:if test="${error == true}">
+                <p>${errorfeedback}</p>
             </c:if>
-            <p>Arithmetic Calculator</p>
+             <c:if test="${age != null}">
+                <p>Your age next birthday will be ${age.age + 1}</p>
+            </c:if>   
+                <br>
+                <a href="http://localhost:8084/Calculators/arithmetic">Arithmetic Calculator</a>
           </div>
         
         </form>
